@@ -119,6 +119,18 @@ class OpenInclude(sublime_plugin.TextCommand):
 
         if s.get('use_strict'):
             return self.try_open(window, self.resolve_relative(os.path.dirname(view.file_name()), paths[0]))
+        
+        # get extra path settings
+        temp = s.get('extra_path', [])
+        extra_paths = []
+        
+        for path in temp:
+            path = path.strip()
+            if path != '':
+                if path[-1:] != '/'
+                    path += '/'
+                extra_paths.append(path)
+
 
         paths = self.expand_paths_with_extensions(window, view, paths)
 
@@ -165,7 +177,15 @@ class OpenInclude(sublime_plugin.TextCommand):
                 opened = self.try_open(window, path)
                 if opened:
                     opened = True
-
+            
+            # all failed, now try the extra paths
+            if not opened:
+                if path[0] != '/':
+                    for expath in extra_paths:
+                        opened = self.try_open(window, expath + path)
+                        if opened:
+                            break;
+                            
             if opened:
                 something_opened = True
 
