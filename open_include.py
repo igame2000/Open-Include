@@ -127,7 +127,7 @@ class OpenInclude(sublime_plugin.TextCommand):
         for path in temp:
             path = path.strip()
             if path != '':
-                if path[-1:] != '/'
+                if path[-1:] != '/':
                     path += '/'
                 extra_paths.append(path)
 
